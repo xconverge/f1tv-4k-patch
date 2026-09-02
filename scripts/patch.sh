@@ -497,10 +497,10 @@ with open(path, 'r') as f:
     content = f.read()
 
 # Replace getDefaultDisplaySize() body with a hardcoded 3840x2160 Point.
-# Preserve its modifiers: recent SDK builds change the visibility/final flags.
+# Preserve its modifiers and support both Context- and Activity-based SDK versions.
 # 0xf00 = 3840, 0x870 = 2160. Result is also cached in trueDisplaySize.
 pattern = (
-    r'(?P<declaration>\.method [^\n]*\bgetDefaultDisplaySize\(Landroid/content/Context;\)Landroid/graphics/Point;)'
+    r'(?P<declaration>\.method [^\n]*\bgetDefaultDisplaySize\(Landroid/(?:app/Activity|content/Context);\)Landroid/graphics/Point;)'
     r'.*?'
     r'\.end method'
 )
