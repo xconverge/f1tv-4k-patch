@@ -20,12 +20,8 @@ die()   { echo -e "${RED}[ERROR]${NC} $*" >&2; exit 1; }
 
 cleanup() {
     if [[ -n "${WORKDIR:-}" && -d "${WORKDIR}" ]]; then
-        if [[ "${F1TV_KEEP_WORKDIR:-0}" == "1" ]]; then
-            warn "Keeping workspace for inspection: ${WORKDIR}"
-        else
-            info "Cleaning up ${WORKDIR}"
-            rm -rf "${WORKDIR}"
-        fi
+        info "Cleaning up ${WORKDIR}"
+        rm -rf "${WORKDIR}"
     fi
 }
 trap cleanup EXIT
@@ -524,9 +520,6 @@ replacement = r"""\g<declaration>
 content, count = re.subn(pattern, replacement, content, flags=re.DOTALL)
 if count == 0:
     print("ERROR: getDefaultDisplaySize not found", file=sys.stderr)
-    print("Available TrueTVDisplaySizeHelper methods:", file=sys.stderr)
-    for declaration in re.findall(r'^\.method [^\n]+$', content, flags=re.MULTILINE):
-        print(f"  {declaration}", file=sys.stderr)
     sys.exit(1)
 
 with open(path, 'w') as f:
